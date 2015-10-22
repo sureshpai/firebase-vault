@@ -2,7 +2,7 @@
 
 Have you ever stored personal information in a file on a PC? If so, there is a high
 chance that you protected the file by a password/passphrase, so that only you could
-read/update that file. I use  [bcrypt][http://bcrypt.sourceforge.net/] on my PC.
+read/update that file. I use  [bcrypt](http://bcrypt.sourceforge.net/) on my PC.
 
 With the advent of mobile devices, it would be mighty cool to make such a file accessible
 to all of your devices. Such a solution requires:
@@ -16,14 +16,15 @@ to all of your devices. Such a solution requires:
  There are commercial services like [Fogpad](https://www.fogpad.net/) that provide similar
  functionality. So, why write another one? This was mostly an itch that I needed to scratch.
  I have always wanted to do this project; hopefully putting it down now will help me focus on
- other things. Maybe I will actually use it '*gasp*'.
+ other things. Maybe I will actually use it!.
 
  ## The stack
 
- [Firebase](https://firebase.com) will be the storage device. Firebase also provides hosting, so plus+.
+ [Firebase](https://firebase.com) will be the storage device. Firebase also provides hosting, so that is
+ an additional plus.
 
  I will use a browser on all devices to access the "application". The "application" will be
- an angular thick client, which will use [SJCL][https://crypto.stanford.edu/sjcl/,"Stanfords Javascript Crypto Library"]
+ an angular thick client, which will use [SJCL](https://crypto.stanford.edu/sjcl/,"Stanfords Javascript Crypto Library")
  to handle encrypting/decrypting using javascript on the browser.
 
  Since ordinary text is so boring on a mobile device, I will add markdown support. Markdown documents

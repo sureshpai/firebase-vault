@@ -1,0 +1,17 @@
+{
+  "name": "firebase-vault",
+  "description": "storage of a password protected document in firebase.",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sureshpai/firebase-vault",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "angular-loader": "~1.4.7",
+    "angular-mocks": "~1.4.7",
+    "html5-boilerplate": "~5.2.0",
+    "angular-sanitize": "~1.4.7",
+    "angular-bootstrap": "~0.14.0"
+  }
+}

@@ -161,7 +161,9 @@ config(['$routeProvider', function($routeProvider) {
    var _showDown = new showdown.Converter();
    _showDown.setOption('tables',true);
    myVS.makeHtml = function(mkdwn){
-     return _showDown.makeHtml(mkdwn);
+     var s= _showDown.makeHtml(mkdwn);
+     s = s.replace(/<table>/g,"<table class=\"table\">");
+     return s;
    }
 
 

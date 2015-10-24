@@ -71,14 +71,102 @@
   <script src="bower_components/showdown/dist/showdown.min.js"></script>
 
   <script type=text/ng-template id=home.html>
-    <div ng-if="login.isLoggedIn">
-      <h2> Welcome {{login.pname}}
-    </div>
-    <div ng-if="!login.isLoggedIn">
+    <div ng-if="state === stateNotLoggedIn">
       <button class="btn btn-primary" type="submit"
         ng-click="signInUsingGoogle($event)">Login via google</button>
       <button class="btn btn-primary" type="submit"
           ng-click="signInUsingFacebook($event)">Login via facebook</button>
+    </div>
+    <div ng-if="state === stateLoginPending">
+       <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+    </div>
+    <div ng-if="state === stateLoggedIn">
+     <!-- nothing here.. -->
+    </div>
+    <div ng-if="state === stateCheckingForVaultEnabled">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/><br/>
+      Checking if a vault is available.
+      <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+    </div>
+    <div ng-if="state === stateNotEligibleForVault">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/><br/>
+      Sorry.. You are not eligible to create a vault today.
+    </div>
+    <div ng-if="state === stateVaultEnabled">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/><br/>
+      Fetching your vault contents now.
+      <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+    </div>
+    <div ng-if="state === stateVaultNotInitialized">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/><br/>
+      New vault.
+    </div>
+    <div ng-if="state === stateGotVaultContents">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/><br/>
+      Got your vault contents.
+      {{vault.contents}}
+    </div>
+    <div ng-if="state === statePasswordRequired || state === statePasswordIncorrect">
+      <h3>{{login.pname}}</h3>({{login.uid}})
+      <br/>
+      <div ng-if="vault.passwordError">Incorrect password. Try again</div>
+      <form>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input class="form-control" id="password" placeholder="Super Secret Password" type="password" ng-model="vault.pass">
+        </div>
+        <button class="btn btn-primary" type="submit"
+            ng-click="decrypt($event)">Get Vault Contents</button>
+      </form>
+    </div>
+    <div ng-if="state === stateDisplayVault">
+        <button class="btn btn-default" type="submit"
+          ng-click="startEditing($event)"> Edit
+          <span class="glyphicon glyphicon-edit"></span>
+        </button>
+      <div class="row" ng-bind-html="vault.mkdown"></div>
+    </div>
+    <div ng-if="state === stateEditVault">
+        <button class="btn btn-default" type="submit"
+           ng-click="storeText()"> Save
+           <span class="glyphicon glyphicon-ok-circle"></span>
+         </button>
+         <button class="btn btn-default" type="submit"
+            ng-click="stopEditing()"> Cancel
+            <span class="glyphicon glyphicon-remove-circle"></span>
+          </button>
+        <textarea class="form-control" ng-model="vault.copyPlaintext" rows="20" cols="80">{{vault.copyPlaintext}}</textarea>
+    </div>
+    <div ng-if="state === stateSavingInProgress">
+    <h3>{{login.pname}}</h3>({{login.uid}})
+      Saving..
+      <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+    </div>
+    <div ng-if="state === stateCouldNotSave">
+    <h3>{{login.pname}}</h3>({{login.uid}})
+      Oops.. could not save. Try again later.
+    </div>
+    <div ng-if="state === stateNewPasswordRequired">
+        <h3>{{login.pname}}</h3>({{login.uid}})
+        <br/>
+        <div ng-if="vault.passwordError">Passwords do not match</div>
+        <form>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" id="password" placeholder="Super Secret Password" type="password" ng-model="vault.newPass">
+          </div>
+          <div class="form-group">
+            <label for="passwordRetyped">Retype Password</label>
+            <input class="form-control" id="passwordRetyped" placeholder="Super Secret Password" type="password" ng-model="vault.newPassRepeated">
+          </div>
+          <button class="btn btn-primary" type="submit"
+              ng-click="newPassword($event)">Change it!</button>
+        </form>
     </div>
   </script>
 
@@ -88,6 +176,31 @@
 
    <script type=text/ng-template id=about.html>
     <p>About Page</p>
+   </script>
+
+   <script type=text/ng-template id=vault.html>
+    <h2>Vault for {{vault.pname}}</h2>
+    <div ng-if="!vault.isEligibleForVault">
+      You are not eligible for this service yet. Sorry.
+      <br/><br/>
+      <button class="btn btn-primary" type="submit"
+        ng-click="refresh($event)"> Try Now
+        <span class="glyphicon glyphicon-refresh"></span>
+      </button>
+    </div>
+    <div ng-if="vault.isEligibleForVault && vault.hasVault">
+    <form>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" id="password" placeholder="Super Secret Password" type="password" ng-model="ed.pass">
+      </div>
+      <button class="btn btn-primary" type="submit"
+          ng-click="getVault($event)">Get my contents</button>
+    </form>
+    <div>{{vault.content}}</div>
+    <div>{{vault.hasInitializedVault}}</div>
+    <div>{{vault.error}}</div>
+    </div>
    </script>
 
 

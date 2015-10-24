@@ -160,6 +160,7 @@ config(['$routeProvider', function($routeProvider) {
 
    var _showDown = new showdown.Converter();
    _showDown.setOption('tables',true);
+   _showDown.setOption('strikethrough',true);
    myVS.makeHtml = function(mkdwn){
      var s= _showDown.makeHtml(mkdwn);
      s = s.replace(/<table>/g,"<table class=\"table\">");

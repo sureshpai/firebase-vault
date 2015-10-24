@@ -72,10 +72,11 @@
 
   <script type=text/ng-template id=home.html>
     <div ng-if="state === stateNotLoggedIn">
-      <button class="btn btn-primary" type="submit"
-        ng-click="signInUsingGoogle($event)">Login via google</button>
-      <button class="btn btn-primary" type="submit"
-          ng-click="signInUsingFacebook($event)">Login via facebook</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit"
+              ng-click="signInUsingGoogle($event)">Login via google</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit"
+                ng-click="signInUsingFacebook($event)">Login via facebook</button>
+      </div>
     </div>
     <div ng-if="state === stateLoginPending">
        <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
@@ -92,7 +93,7 @@
     <div ng-if="state === stateNotEligibleForVault">
       <h3>{{login.pname}}</h3>({{login.uid}})
       <br/><br/>
-      Sorry.. You are not eligible to create a vault today.
+      Sorry.. No vault for you.
     </div>
     <div ng-if="state === stateVaultEnabled">
       <h3>{{login.pname}}</h3>({{login.uid}})
@@ -113,33 +114,37 @@
     </div>
     <div ng-if="state === statePasswordRequired || state === statePasswordIncorrect">
       <h3>{{login.pname}}</h3>({{login.uid}})
-      <br/>
+      <br/><br/><br/>
       <div ng-if="vault.passwordError">Incorrect password. Try again</div>
       <form>
         <div class="form-group">
           <label for="password">Password</label>
           <input class="form-control" id="password" placeholder="Super Secret Password" type="password" ng-model="vault.pass">
         </div>
-        <button class="btn btn-primary" type="submit"
+        <button class="btn btn-primary btn-block" type="submit"
             ng-click="decrypt($event)">Get Vault Contents</button>
       </form>
     </div>
     <div ng-if="state === stateDisplayVault">
-        <button class="btn btn-default" type="submit"
-          ng-click="startEditing($event)"> Edit
-          <span class="glyphicon glyphicon-edit"></span>
-        </button>
-      <div class="row" ng-bind-html="vault.mkdown"></div>
+
+            <button class="btn btn-primary btn-lg" type="submit"
+              ng-click="startEditing($event)"> Edit
+              <span class="glyphicon glyphicon-edit"></span>
+            </button>
+
+            <div  ng-bind-html="vault.mkdown"></div>
     </div>
     <div ng-if="state === stateEditVault">
-        <button class="btn btn-default" type="submit"
-           ng-click="storeText()"> Save
-           <span class="glyphicon glyphicon-ok-circle"></span>
-         </button>
-         <button class="btn btn-default" type="submit"
-            ng-click="stopEditing()"> Cancel
-            <span class="glyphicon glyphicon-remove-circle"></span>
-          </button>
+        <div class="btn-group">
+                <button class="btn btn-primary btn-lg" type="submit"
+                   ng-click="storeText()"> Save
+                   <span class="glyphicon glyphicon-ok-circle"></span>
+                 </button>
+                 <button class="btn btn-primary btn-lg" type="submit"
+                    ng-click="stopEditing()"> Cancel
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                  </button>
+        </div>
         <textarea class="form-control" ng-model="vault.copyPlaintext" rows="20" cols="80">{{vault.copyPlaintext}}</textarea>
     </div>
     <div ng-if="state === stateSavingInProgress">

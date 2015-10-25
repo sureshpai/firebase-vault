@@ -134,11 +134,19 @@ config(['$routeProvider', function($routeProvider) {
      return vaultEnabledForMe.$loaded().then(function(){
           var _enabled=vaultEnabledForMe.$value;
           if (_enabled !== true){
-            vaultEnabledForMe.$value=false; // granted=false => pending.
-            vaultEnabledForMe.$save();
+            myVS.setIsPendingForVault(); // ignore this promise's return.
           }
         return _enabled;
       });
+    }
+
+    myVS.setIsPendingForVault= function(){
+      var vaultEnabledForMe= $firebaseObject(
+        LoginService.firebaseRef().child('pending').child(LoginService.uid()));
+      return vaultEnabledForMe.$loaded().then(function(){
+           vaultEnabledForMe.$value=LoginService.email();
+           vaultEnabledForMe.$save();
+       });
     }
 
    myVS.getVaultContents= function(){

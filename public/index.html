@@ -72,10 +72,15 @@
 
   <script type=text/ng-template id=home.html>
     <div ng-if="state === stateNotLoggedIn">
+       <div class="col-md-6">
+         This is a private system intended to be used only by its creator. 
+       </div>
+       <div class="col-md-6">
             <button class="btn btn-primary btn-lg btn-block" type="submit"
               ng-click="signInUsingGoogle($event)">Login via google</button>
             <button class="btn btn-primary btn-lg btn-block" type="submit"
                 ng-click="signInUsingFacebook($event)">Login via facebook</button>
+        </div>
       </div>
     </div>
     <div ng-if="state === stateLoginPending">
